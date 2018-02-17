@@ -28,7 +28,7 @@ extern int opterr;              /* flag to enable built-in diagnostics... */
 
 extern char *optarg;            /* pointer to argument of current option  */
 
-extern int getopt(int, char * const [], const char *);
+int getopt(int, char * const [], const char *);
 
 struct option           /* specification for a long form option...      */
 {
@@ -45,8 +45,8 @@ enum                    /* permitted values for its "has_arg" field...  */
     optional_argument           /* option may take an argument          */
 };
 
-extern int getopt_long(int, char * const [], const char *, const struct option *, int *);
-extern int getopt_long_only(int, char * const [], const char *, const struct option *, int *);
+int getopt_long(int, char * const [], const char *, const struct option *, int *);
+int getopt_long_only(int, char * const [], const char *, const struct option *, int *);
 
 #ifdef __cplusplus
 } /* extern "C" */
