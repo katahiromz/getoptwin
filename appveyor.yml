@@ -8,27 +8,12 @@ environment:
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: "Visual Studio 15 2017"
-      BUILD_SHARED_LIBS: ON
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      GENERATOR: "Visual Studio 15 2017"
-      BUILD_SHARED_LIBS: OFF
   
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       GENERATOR: "Visual Studio 14 2015"
-      BUILD_SHARED_LIBS: ON
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      GENERATOR: "Visual Studio 14 2015"
-      BUILD_SHARED_LIBS: OFF
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       GENERATOR: "Visual Studio 12 2013"
-      BUILD_SHARED_LIBS: ON
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      GENERATOR: "Visual Studio 12 2013"
-      BUILD_SHARED_LIBS: OFF
 
 platform:
   - Win32
@@ -42,7 +27,7 @@ before_build:
   - md build
   - cd build
   - cmake --version
-  - cmake -G "%GENERATOR%" -A "%PLATFORM%" -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% ..
+  - cmake -G "%GENERATOR%" -A "%PLATFORM%" ..
 
 build:
   project: build/getoptwin.sln
