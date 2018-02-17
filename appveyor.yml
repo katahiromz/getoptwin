@@ -1,37 +1,51 @@
 version: '{build}'
 
 branches:
-    only:
-        - master
+  only:
+    - master
 
-clone_folder: c:\projects\cmake-init
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: "Visual Studio 15 2017"
+      BUILD_SHARED_LIBS: ON
 
-image:
-    - Visual Studio 2013
-    - Visual Studio 2015
-    - Visual Studio 2017
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: "Visual Studio 15 2017"
+      BUILD_SHARED_LIBS: OFF
+  
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 14 2015"
+      BUILD_SHARED_LIBS: ON
 
-matrix:
-    fast_finish: true
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 14 2015"
+      BUILD_SHARED_LIBS: OFF
 
-init:
-    - set arch=
-    - if "%arch%"=="Win64" (set arch= Win64)
-    - echo %arch%
-    - echo %APPVEYOR_BUILD_WORKER_IMAGE%
-    - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" (set generator="Visual Studio 12 2013%arch%")
-    - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (set generator="Visual Studio 14 2015%arch%")
-    - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (set generator="Visual Studio 15 2017%arch%")
-    - echo %generator%
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 12 2013"
+      BUILD_SHARED_LIBS: ON
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 12 2013"
+      BUILD_SHARED_LIBS: OFF
+
+platform:
+  - Win32
+  - x64
+
+configuration:
+  - Debug
+  - Release
 
 before_build:
-- cmd: |-
-    mkdir build
-    cd build
-    cmake --version
-    cmake .. -G %generator%
+  - md build
+  - cd build
+  - cmake --version
+  - cmake -G "%GENERATOR%" -A "%PLATFORM%" -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% ..
 
 build:
-    project: c:\projects\cmake-init\build\getoptwin.sln
-    verbosity: minimal
-    parallel: true
+  project: build/getoptwin.sln
+
+matrix:
+  fast_finish: true
