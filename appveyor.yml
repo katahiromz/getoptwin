@@ -31,7 +31,6 @@ before_build:
 
 build:
   project: build/getoptwin.sln
-  parallel: true
 
 matrix:
   fast_finish: true
